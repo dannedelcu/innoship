@@ -61,8 +61,7 @@ interface GenerateAwbRequest {
     shipmentPaymentMethod: string
     courierId: number
     orderId: string
-    phoneNumbers?: string[]
-    emails? : string[]
+    receiverPhoneNumber?: string
 }
 
 interface GenerateAwbResponse {

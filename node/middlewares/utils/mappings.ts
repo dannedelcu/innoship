@@ -40,7 +40,7 @@ export async function createPayload (
           serviceId: order.shippingData.address.addressType === PICKUP ? PICKUP_SERVICE_ID: DEFAULT_SERVICE_ID,
           shipmentDate: new Date().toISOString(),
           addressFrom: null,
-          addressTo: mapAddresses(order, body.phoneNumbers, body.emails),
+          addressTo: mapAddresses(order, body.receiverPhoneNumber),
           payment: body.shipmentPaymentMethod,
           content: {
             envelopeCount: DEFAULT_ENVELOPE_COUNT,
@@ -75,7 +75,7 @@ export const mapParcels = (
 })
 
 export function mapAddresses (
-    order: any, phoneNumbers: string[] | undefined, emails: string[] | undefined
+    order: any, receiverPhoneNumber: string | undefined
 ): Address {
   const {address} = order.shippingData
     const addressText = [
@@ -96,8 +96,8 @@ export function mapAddresses (
       localityName: address.city,
       addressText,
       postalCode: address.postalCode,
-      phone: phoneNumbers?.length ? phoneNumbers[0] : order.clientProfileData.phone,
-      email: emails?.length ? emails[0] : order.clientProfileData.email
+      phone: receiverPhoneNumber ? receiverPhoneNumber : order.clientProfileData.phone,
+      email: order.clientProfileData.email
     }
     if (order.shippingData.address.addressType === PICKUP) 
         return {

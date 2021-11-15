@@ -1,6 +1,6 @@
 {
   "name": "innoship",
-  "version": "2.1.2",
+  "version": "2.1.4",
   "scripts": {
     "test": "vtex-test-tools test"
   },

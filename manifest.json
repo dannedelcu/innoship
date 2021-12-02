@@ -94,6 +94,9 @@
     },
     {
       "name": "ADMIN_CRM"
+    },
+    {
+      "name": "LogisticsAdmin"
     }
   ],
   "settingsSchema": {

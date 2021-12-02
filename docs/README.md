@@ -117,3 +117,8 @@ You can configure which carriers will be included in this update by accessing th
 ### GET - /innoship/get-label/:courier/:trackingNumber
 
 ### POST - /innoship/request-awb-history
+
+
+**Upcoming documentation:**
+
+ - [Fix LogisticsAdmin permission to access pickup points](https://github.com/vtex-apps/innoship/pull/9)

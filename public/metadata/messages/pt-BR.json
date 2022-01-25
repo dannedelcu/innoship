@@ -1,0 +1,16 @@
+{
+  "name": "Innoship",
+  "headline": "Software de envio de várias transportadoras",
+  "overview": "O aplicativo permite a integração com o Innoship, um software de remessa que ajuda os varejistas por meio de um único ponto de integração a otimizar seus custos e entregar desempenho por meio de alocação dinâmica de transportadoras. Atualmente, a Innoship está integrada com mais de 55 transportadoras e mais de 100 serviços de entrega. Do checkout e envio ao rastreamento, devoluções e análises, o Innoship ajuda você a cumprir com segurança as promessas feitas aos seus clientes.",
+  "features": [
+    "Integra sua loja VTEX com sua conta Innoship",
+    "Permite receber códigos AWB Innoship",
+    "Permite gerenciar embarques Innoship dentro da VTEX",
+    "Inclui uma integração Smartbill para envio de faturas"
+  ],
+  "additionalInformation": "Este aplicativo requer uma conta www.innoship.com válida. As taxas de transação da Innoship variam de comerciante para comerciante. As taxas de transação serão cobradas para cada transação.",
+  "websiteURL": "https://www.innoship.com/",
+  "support": {
+    "url": "https://support.vtex.com/hc/requests"
+  }
+}

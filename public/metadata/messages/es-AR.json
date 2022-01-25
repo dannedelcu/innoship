@@ -1,0 +1,16 @@
+{
+  "name": "Innoship",
+  "headline": "Software de envío de múltiples transportistas",
+  "overview": "La aplicación le permite integrarse con Innoship, un software de envío que ayuda a los minoristas a través de un único punto de integración a optimizar sus costos y brindar rendimiento a través de la asignación dinámica de transportistas. Actualmente, Innoship está integrado con más de 55 transportistas y más de 100 servicios de entrega. Desde el pago y el envío hasta el seguimiento, las devoluciones y el análisis, Innoship lo ayuda a cumplir de manera segura las promesas hechas a sus clientes.",
+  "features": [
+    "Integra su tienda VTEX con su cuenta Innoship",
+    "Le permite recibir códigos Innoship AWB",
+    "Permite gestionar envíos Innoship dentro de VTEX",
+    "Incluye una integración de Smartbill para facturas de envío"
+  ],
+  "additionalInformation": "Esta aplicación requiere una cuenta www.innoship.com válida. Las tarifas de transacción de Innoship varían de un comerciante a otro. Se cobrarán tarifas de transacción por cada transacción.",
+  "websiteURL": "https://www.innoship.com/",
+  "support": {
+    "url": "https://support.vtex.com/hc/requests"
+  }
+}

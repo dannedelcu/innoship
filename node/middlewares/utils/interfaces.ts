@@ -62,6 +62,7 @@ interface GenerateAwbRequest {
     courierId: number
     orderId: string
     receiverPhoneNumber?: string
+    receiverName?: string
 }
 
 interface GenerateAwbResponse {

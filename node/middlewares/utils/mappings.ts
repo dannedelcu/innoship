@@ -23,7 +23,7 @@ export async function createPayload (
     } else {
       parcels.push(mapParcels(1, weight))
     }
-   
+
     const {warehouseId} = order.shippingData.logisticsInfo[0].deliveryIds[0]
     const {firstDigits} = order.paymentData.transactions[0].payments[0]
     const paymentPromissory =
@@ -35,12 +35,12 @@ export async function createPayload (
       firstDigits || paymentPromissory
         ? 0
         : value / PRICE_MULTIPLIER
-       
+
         const payload = {
           serviceId: order.shippingData.address.addressType === PICKUP ? PICKUP_SERVICE_ID: DEFAULT_SERVICE_ID,
           shipmentDate: new Date().toISOString(),
           addressFrom: null,
-          addressTo: mapAddresses(order, body.receiverPhoneNumber),
+          addressTo: mapAddresses(order, body.receiverPhoneNumber, body.receiverName),
           payment: body.shipmentPaymentMethod,
           content: {
             envelopeCount: DEFAULT_ENVELOPE_COUNT,
@@ -58,13 +58,13 @@ export async function createPayload (
           },
           courierId: body.courierId
         }
-    
-       
+
+
       return payload
 }
 
 export const mapParcels = (
-    i: number, 
+    i: number,
     weight: number
 ): Parcel => ({
     sequenceNo: i,
@@ -75,7 +75,9 @@ export const mapParcels = (
 })
 
 export function mapAddresses (
-    order: any, receiverPhoneNumber: string | undefined
+    order: any,
+    receiverPhoneNumber: string | undefined,
+    receiverName: string | undefined
 ): Address {
   const {address} = order.shippingData
     const addressText = [
@@ -87,10 +89,10 @@ export function mapAddresses (
     ]
       .filter(Boolean)
       .join(', ')
-      
+
     const result = {
-      name: address.receiverName,
-      contactPerson: address.receiverName,
+      name: receiverName ? receiverName : address.receiverName,
+      contactPerson: receiverName ? receiverName : address.receiverName,
       country: DEFAULT_COUNTRY,
       countyName: address.state,
       localityName: address.city,
@@ -99,7 +101,7 @@ export function mapAddresses (
       phone: receiverPhoneNumber ? receiverPhoneNumber : order.clientProfileData.phone,
       email: order.clientProfileData.email
     }
-    if (order.shippingData.address.addressType === PICKUP) 
+    if (order.shippingData.address.addressType === PICKUP)
         return {
         ...result,
         fixedLocationId: order.shippingData.address.addressId,

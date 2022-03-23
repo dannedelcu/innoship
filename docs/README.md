@@ -131,3 +131,4 @@ You can configure which carriers will be included in this update by accessing th
 **Upcoming documentation:**
 
  - [Fix LogisticsAdmin permission to access pickup points](https://github.com/vtex-apps/innoship/pull/9)
+ - [added custom receiverName option](https://github.com/vtex-apps/innoship/pull/13)

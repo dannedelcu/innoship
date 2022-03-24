@@ -1,9 +1,10 @@
 {
   "dependencies": {
-    "@vtex/api": "6.45.3",
+    "@vtex/api": "6.45.10",
     "@vtex/clients": "^2.9.0-beta.0",
     "axios": "^0.20.0",
     "co-body": "^6.0.0",
+    "country-iso-2-to-3": "^1.1.0",
     "eslint": "^7.32.0",
     "ramda": "^0.25.0"
   },
@@ -12,7 +13,7 @@
     "@types/jest": "^24.0.18",
     "@types/node": "^12.0.0",
     "@types/ramda": "types/npm-ramda#dist",
-    "@vtex/api": "6.45.3",
+    "@vtex/api": "6.45.10",
     "@vtex/test-tools": "^1.0.0",
     "tslint": "^5.14.0",
     "tslint-config-vtex": "^2.1.0",

@@ -27,7 +27,6 @@ export default class CatalogApi extends ExternalClient {
   }
 
   public async saveInnoshipLocationsToCatalog(ctx: any, data: PickupPoint): Promise<any>{
-    console.log('Save pickup points');
     return this.http.put(`/logistics/pvt/configuration/pickuppoints/${data.id}`, data, {
       headers: {
         VtexIdclientAutCookie: ctx.vtex.authToken,

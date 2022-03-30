@@ -134,9 +134,10 @@ export async function processPickupPoints(
 
     const locations = await innoship.fixedLocations('')
     const settings = await innoship.getSettings()
+    const countryInfo = await innoship.getCountries();
 
     locations.map((location: any) => {
-        events.sendEvent('', 'innoship.pickupPoint', { settings, location })
+        events.sendEvent('', 'innoship.pickupPoint', { settings, location, countryInfo })
     })
 
     ctx.body = 'OK'

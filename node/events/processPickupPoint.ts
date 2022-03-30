@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { InnoshipSchedule } from '../middlewares/utils/InnoshipSchedule'
+import getCountryISO3 = require("country-iso-2-to-3");
 
 export async function processPickupPoint(
   ctx: any,
   next: () => Promise<any>
 ) {
+  const { body, clients: {catalogApi} } = ctx
   try {
-    const { body, clients: {catalogApi} } = ctx
-    const { location } = body
+    const { location, countryInfo } = body
 
     const workingHours = location.schedule.map((item: InnoshipSchedule) => {
       
@@ -18,6 +19,7 @@ export async function processPickupPoint(
       }
     })
 
+    const currentCountry = countryInfo.find((countryObject: any) => countryObject.code==location.countryCode)
     const tags = ['innoship pickup', `innoship courier ${location.courierId}`]
 
     if (location.supportedPaymentType.indexOf('Card') !== -1) {
@@ -31,8 +33,8 @@ export async function processPickupPoint(
         city: location.localityName,
         complement: location.courierId,
         country: {
-          acronym: 'ROU',
-          name: 'Romania',
+          acronym: getCountryISO3(currentCountry.code),
+          name: currentCountry.name,
         },
         location: {
           latitude: location.lat,
@@ -53,7 +55,6 @@ export async function processPickupPoint(
       name: location.name,
       tagsLabel: tags,
     }
-    console.log('Save to catalog');
     catalogApi.saveInnoshipLocationsToCatalog(ctx, data);
 
     await next()

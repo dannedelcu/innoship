@@ -2311,6 +2311,11 @@ core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz"
 
+country-iso-2-to-3@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/country-iso-2-to-3/-/country-iso-2-to-3-1.1.0.tgz#219379033763abf86e96845317ae9be145aae850"
+  integrity sha512-+xaB6XPuuLuSQEjejWXjff7s5AMyisPk3jBmIqM7aymup79mEcinNkUiIpe4VedSPWCT+/bMW/EDJvRaiDaWKw==
+
 crc32-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/crc32-stream/-/crc32-stream-2.0.0.tgz"

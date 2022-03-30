@@ -145,6 +145,34 @@ export default class Innoship extends ExternalClient {
     })
   }
 
+  public async getCountries(): Promise<string> {
+    const apps = new Apps(this.context)
+    const appId = process.env.VTEX_APP_ID as string
+    const settings = await apps.getAppSettings(appId)
+    if (!settings.innoshipApiToken) {
+      const response = {
+        response: {
+          data: {
+            errors: {
+              token: [this.missingToken],
+            },
+          },
+        },
+      }
+
+      return JSON.stringify(response)
+    }
+
+    return this.http.get(`/Location/Countries`, {
+      headers: {
+        'X-Api-Key': settings.innoshipApiToken,
+        'X-Vtex-Use-Https': true,
+        accept: 'application/json',
+        'api-version': '1.0',
+      },
+    })
+  }
+
   public async fixedLocations(params: any): Promise<string> {
     const apps = new Apps(this.context)
     const appId = process.env.VTEX_APP_ID as string

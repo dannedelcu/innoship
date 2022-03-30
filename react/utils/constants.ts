@@ -18,7 +18,7 @@ export const completedStep = 'completed';
 export const canceledStatus = 'canceled';
 
 export const allFilterStatuses = {
-  waitingAuth: 'waiting-ffmt-authorization,on-order-completed-ffm,order-accepted',
+  waitingForAuthentication: 'waiting-ffmt-authorization,on-order-completed-ffm,order-accepted',
   paymentPending: 'payment-pending',
   paymentApproved: 'payment-approved',
   handling: 'handling',

@@ -136,9 +136,7 @@ export async function processPickupPoints(
     const settings = await innoship.getSettings()
 
     locations.map((location: any) => {
-      if (location.countryCode === 'RO') {
         events.sendEvent('', 'innoship.pickupPoint', { settings, location })
-      }
     })
 
     ctx.body = 'OK'

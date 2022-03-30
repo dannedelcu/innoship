@@ -30,7 +30,7 @@ const messages = defineMessages({
   payment: {id: 'admin/order.payment'},
   status: {id: 'admin/order.status'},
   awbStatus: {id: 'admin/order.awb-status'},
-  waitingAuth: {id: 'admin/order.status.waiting-ffmt-authorization'},
+  waitingForAuthentication: {id: 'admin/order.status.waiting-ffmt-authorization'},
   paymentPending: {id: 'admin/order.status.payment-pending'},
   paymentApproved: {id: 'admin/order.status.payment-approved'},
   readyForHandling: {id: 'admin/order.status.ready-for-handling'},
@@ -50,7 +50,7 @@ const messages = defineMessages({
   of: {id: 'admin/order.of'},
   actions: {id: 'admin/order.actions'},
   updateAwbStatus: {id: 'admin/order.update-awb-status'},
-  updateAwbCouriers: {id: 'admin.app.shipping-awb-couriers-settings'},
+  updateAwbCouriers: {id: 'admin/app.shipping-awb-couriers-settings'},
   noData: {id: 'admin/order.no-data'},
   allFilters: {id: 'admin/order.filters-all'},
   noneFilters: {id: 'admin/order.filters-none'},
@@ -644,7 +644,7 @@ class OrdersTable extends Component<any, any> {
                              }) {
     const {formatMessage} = this.props.intl;
     const initialValue = {
-      waitingAuth: true,
+      waitingForAuthentication: true,
       paymentPending: true,
       paymentApproved: true,
       handling: true,

@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { EventContext, IOClients } from '@vtex/api'
 import axios from 'axios'
+const getCountryISO3 = require("country-iso-2-to-3");
 
 export async function processPickupPoint(
   ctx: EventContext<IOClients>,
   next: () => Promise<any>
 ) {
+  const { body, vtex } = ctx
   try {
-    const { body, vtex } = ctx
-    const { location } = body
+    const { location, countryInfo } = body
 
     const workingHours = location.schedule.map((item: any) => {
       return {
@@ -18,6 +19,7 @@ export async function processPickupPoint(
       }
     })
 
+    const currentCountry = countryInfo.find((countryObject: any) => countryObject.code==location.countryCode)
     const tags = ['innoship pickup', `innoship courier ${location.courierId}`]
 
     if (location.supportedPaymentType.indexOf('Card') !== -1) {
@@ -31,8 +33,8 @@ export async function processPickupPoint(
         city: location.localityName,
         complement: location.courierId,
         country: {
-          acronym: 'ROU',
-          name: 'Romania',
+          acronym: getCountryISO3(currentCountry.code),
+          name: currentCountry.name,
         },
         location: {
           latitude: location.lat,

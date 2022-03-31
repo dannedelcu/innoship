@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { InnoshipSchedule } from '../middlewares/utils/InnoshipSchedule'
-import getCountryISO3 = require("country-iso-2-to-3");
+const getCountryISO3 = require("country-iso-2-to-3");
 
 export async function processPickupPoint(
   ctx: any,

@@ -113,7 +113,7 @@
   "billingOptions": {
     "termsURL": "https://compliance.vtex.com/gdpr/policies/vtex-privacy-policy",
     "support": {
-      "url": "https://innoship.com/en/contact-2/"
+      "url": "https://support.vtex.com/hc/requests"
     },
     "free": true,
     "type": "free",

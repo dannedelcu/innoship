@@ -6,8 +6,8 @@ export async function processPickupPoint(
   ctx: any,
   next: () => Promise<any>
 ) {
-  const { body, clients: {catalogApi} } = ctx
   try {
+    const { body, clients: {catalogApi} } = ctx
     const { location, countryInfo } = body
 
     const workingHours = location.schedule.map((item: InnoshipSchedule) => {

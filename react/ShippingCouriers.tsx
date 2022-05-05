@@ -12,7 +12,7 @@ import {
 
 const messages = defineMessages({
   save: {id: 'admin/order.save'},
-  awb: {id: 'admin.app.shipping-awb-couriers'},
+  awb: {id: 'admin/app.shipping-awb-couriers'},
   shippingList: { id: "admin/shipping-list.navigation.label" }
 });
 

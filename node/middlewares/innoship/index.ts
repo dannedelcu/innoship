@@ -182,7 +182,7 @@ export async function saveCouriers(ctx: any, next: () => Promise<any>) {
             id: response[0].id,
           })
           ctx.body = res
-        } catch (error) {}
+        } catch (error) { }
       } else {
         try {
           const res = await masterData.saveDocuments(ctx, 'savedCouriers', {
@@ -190,7 +190,7 @@ export async function saveCouriers(ctx: any, next: () => Promise<any>) {
             type: 'savedCouriers',
           })
           ctx.body = res
-        } catch (error) {}
+        } catch (error) { }
       }
     })
 

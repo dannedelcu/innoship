@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import type { EventContext, IOClients } from '@vtex/api'
-import axios from 'axios'
+import { InnoshipSchedule } from '../middlewares/utils/InnoshipSchedule'
 const getCountryISO3 = require("country-iso-2-to-3");
 
 export async function processPickupPoint(
-  ctx: EventContext<IOClients>,
+  ctx: any,
   next: () => Promise<any>
 ) {
-  const { body, vtex } = ctx
   try {
+    const { body, clients: {catalogApi} } = ctx
     const { location, countryInfo } = body
 
-    const workingHours = location.schedule.map((item: any) => {
+    const workingHours = location.schedule.map((item: InnoshipSchedule) => {
+      
       return {
         closingTime: item.closingHour,
         dayOfWeek: item.day === 7 ? 0 : item.day,
@@ -55,12 +55,7 @@ export async function processPickupPoint(
       name: location.name,
       tagsLabel: tags,
     }
-
-    axios.put(`https://${vtex.account}.vtexcommercestable.com.br/api/logistics/pvt/configuration/pickuppoints/${data.id}`, data, {
-      headers: {
-        VtexIdclientAutCookie: ctx.vtex.authToken,
-      },
-    })
+    catalogApi.saveInnoshipLocationsToCatalog(ctx, data);
 
     await next()
   } catch (exception) {

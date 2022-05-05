@@ -1,8 +1,9 @@
 import { ExternalClient, InstanceOptions, IOContext } from '@vtex/api'
+import { PickupPoint } from '../middlewares/utils/PickupPoint'
 
 export default class CatalogApi extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
-    super('', context, {
+    super('http://${ctx.vtex.account}.vtexcommercestable.com.br/api', context, {
       ...options,
       headers: {
         ...(options?.headers ?? {}),
@@ -16,12 +17,20 @@ export default class CatalogApi extends ExternalClient {
 
   public async getProductVariations(ctx: any, productId: any): Promise<any> {
     return this.http.get(
-      `http://${ctx.vtex.account}.vtexcommercestable.com.br/api/catalog_system/pub/products/variations/${productId}`,
+      `/catalog_system/pub/products/variations/${productId}`,
       {
         headers: {
           VtexIdclientAutCookie: ctx.vtex.authToken,
         },
       }
     )
+  }
+
+  public async saveInnoshipLocationsToCatalog(ctx: any, data: PickupPoint): Promise<any>{
+    return this.http.put(`/logistics/pvt/configuration/pickuppoints/${data.id}`, data, {
+      headers: {
+        VtexIdclientAutCookie: ctx.vtex.authToken,
+      },
+    })
   }
 }

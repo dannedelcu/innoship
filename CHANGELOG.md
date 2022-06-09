@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Spanish and Portuguese translations
-
 - removed RO hardcoding for locations
 - using a new library which converts the 2 digits country code to 3 digits country code (for saving in MasterData in VTEX)
 - super inline variable for pickup point update

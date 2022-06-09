@@ -3,7 +3,7 @@ import { PickupPoint } from '../middlewares/utils/PickupPoint'
 
 export default class CatalogApi extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
-    ssuper(`http://${context.account}.vtexcommercestable.com.br/api`, context, {
+    super(`http://${context.account}.vtexcommercestable.com.br/api`, context, {
       ...options,
       headers: {
         ...(options?.headers ?? {}),

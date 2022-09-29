@@ -252,7 +252,7 @@ class OrdersTable extends Component<any, any> {
     }
   }
 
-  updateAWB(rows) {
+  async updateAWB(rows) {
     if (this.state.items.length === 0) {
       return
     }
@@ -263,9 +263,9 @@ class OrdersTable extends Component<any, any> {
       items: [],
     });
 
-    rows.selectedRows.map(row => {
-      this.getAWBHistory(row)
-    })
+    await Promise.all(rows.selectedRows.map(async row => {
+      await this.getAWBHistory(row)
+    }))
   }
 
   handleResetFilters() {
@@ -783,7 +783,7 @@ class OrdersTable extends Component<any, any> {
             },
             main: {
               label: (formatMessage({id: messages.updateAwbStatus.id})),
-              handleCallback: params => this.updateAWB(params),
+              handleCallback: params => {this.updateAWB(params)},
             },
           }}
           filters={{

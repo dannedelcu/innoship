@@ -3,15 +3,26 @@
 export async function updateAWBs(ctx: any, next: () => Promise<string>) {
   try {
     const {
-      clients: { innoship, event, masterData },
+      clients: {
+        innoship,
+        event,
+        masterData,
+      },
     } = ctx
 
     const carriers = await masterData.getList(ctx, 'couriers', 'couriers')
     const savedCarriers = await masterData.getList(ctx, 'savedCouriers', 'savedCouriers')
 
+    const mappedCarriers = carriers[0].data.reduce((resp: any, carrier: any) => {
+      resp[carrier.courierId] = carrier.courier
+      return resp
+    }, {})
+
     let currentPage = 1
     let totalPages = 1
     let allOrders = [] as any
+    const awbList = {} as any
+    const invoicesList = {} as any
 
     do {
       const orders = await event.getOrders(ctx, currentPage)
@@ -22,60 +33,71 @@ export async function updateAWBs(ctx: any, next: () => Promise<string>) {
     } while (currentPage <= totalPages)
 
     // @ts-ignore
-    const reverseCourier = Object.assign({}, ...Object.entries(carriers).map(([a, b]) => ({[b]: a,})))
+    const reverseCourier = Object.assign({}, ...Object.entries(mappedCarriers).map(([a, b]) => ({[b]: a,})))
 
     // @ts-ignore
-    const reverseSavedCourier = Object.assign({}, ...Object.entries(savedCarriers).map(([a, b]) => ({[b]: a,})))
+    const reverseSavedCourier = Object.assign({}, ...Object.entries(savedCarriers[0].couriers).map(([a, b]) => ({[b]: a,})))
 
-    allOrders.map((item: any) => {
-      event.getOrder(ctx, item.orderId).then((order: any) => {
-        if (
-          order.packageAttachment.packages &&
-          order.packageAttachment.packages.length
-        ) {
-          const packageItem = order.packageAttachment.packages[0]
-          const { trackingNumber, courier, invoiceNumber } = packageItem
+    await Promise.all(allOrders.map(async (item: any) => {
+      await event.getOrder(ctx, item.orderId)
+        .then(async (order: any) => {
+          if (
+            order.packageAttachment.packages &&
+            order.packageAttachment.packages.length
+          ) {
+            const packageItem = order.packageAttachment.packages[0]
+            const {
+              trackingNumber,
+              courier,
+              invoiceNumber,
+            } = packageItem
 
-          if (trackingNumber && invoiceNumber && (reverseSavedCourier.hasOwnProperty(courier) || !Object.keys(reverseSavedCourier).length)) {
+            if (
+              trackingNumber
+              && invoiceNumber
+              && reverseCourier.hasOwnProperty(courier)
+              && (reverseSavedCourier.hasOwnProperty(courier) || !Object.keys(reverseSavedCourier).length)
+            ) {
 
-            let skip = false
-            if (order?.packageAttachment?.packages[0]?.courierStatus?.data) {
-              order.packageAttachment.packages[0].courierStatus.data.map((item: any) => {
-                if (item.description === 'Canceled' || item.description === 'Canceled by Carrier' || item.description === 'Delivered') {
-                  skip = true
-                }
-              })
-            }
-
-            if (!skip) {
-              const payload = {
-                awbList: [trackingNumber],
-                courier: reverseCourier[courier],
+              let skip = false
+              if (order?.packageAttachment?.packages[0]?.courierStatus?.data) {
+                order.packageAttachment.packages[0].courierStatus.data.map(async (item: any) => {
+                  if (item.description === 'Canceled' || item.description === 'Canceled by Carrier' || item.description === 'Delivered') {
+                    skip = true
+                  }
+                })
               }
 
-              innoship.requestAwbHistory(payload).then((data: any) => {
-                if (
-                  data.length &&
-                  data[0].hasOwnProperty('history')
-                ) {
-                  const {history} = data[0]
-                  const events = history.map((currentEvent: any) => {
-                    return {
-                      date: currentEvent.eventDate,
-                      description: currentEvent.clientStatusDescription,
-                    }
-                  })
+              if (!skip) {
+                awbList[courier] = awbList.hasOwnProperty(courier) ? [ ...awbList[courier], ...[trackingNumber] ] : [trackingNumber]
+                invoicesList[order.orderId] = invoiceNumber
+              }
 
-                  event.updateTrackingData(ctx, order.orderId, invoiceNumber, {
-                    events,
+              Object.entries(awbList).forEach(([key, value]) => {
+                innoship.requestAwbHistory({
+                  awbList: value,
+                  courier: key,
+                })
+                  .then((data: any) => {
+                    data.map((awb: any) => {
+                      if (awb.hasOwnProperty('history')) {
+                        const events = awb.history.map((currentEvent: any) => {
+                          return {
+                            date: currentEvent.eventDate,
+                            description: currentEvent.clientStatusDescription,
+                          }
+                        })
+                        event.updateTrackingData(ctx, awb.externalOrderId, invoicesList[awb.externalOrderId], {
+                          events,
+                        })
+                      }
+                    })
                   })
-                }
               })
             }
           }
-        }
-      })
-    })
+        })
+    }))
 
     ctx.body = 'OK'
     await next()
@@ -134,10 +156,10 @@ export async function processPickupPoints(
 
     const locations = await innoship.fixedLocations('')
     const settings = await innoship.getSettings()
-    const countryInfo = await innoship.getCountries();
+    const countryInfo = await innoship.getCountries()
 
     locations.map((location: any) => {
-        events.sendEvent('', 'innoship.pickupPoint', { settings, location, countryInfo })
+      events.sendEvent('', 'innoship.pickupPoint', { settings, location, countryInfo })
     })
 
     ctx.body = 'OK'

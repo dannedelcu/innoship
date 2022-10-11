@@ -740,11 +740,6 @@ class OrdersTable extends Component<any, any> {
       <div>
         <div className={`flex justify-end`}>
           <div className={`ma3`}>
-            <Button variation="primary" size="small" onClick={() => {this.props.navigate({to: `/admin/app/shipping/couriers`})}}>
-              {formatMessage({id: messages.updateAwbCouriers.id})}
-            </Button>
-          </div>
-          <div className={`ma3`}>
             <Toggle
               label={awbAutoUpdateEnabled ? formatMessage({id: messages.offAutoUpdate.id}) : formatMessage({id: messages.onAutoUpdate.id})}
               checked={awbAutoUpdateEnabled}
@@ -752,6 +747,11 @@ class OrdersTable extends Component<any, any> {
                 this.toggleAWBUpdate()
               }}
             />
+          </div>
+          <div className={`ma3`}>
+            <Button variation="primary" size="small" onClick={() => {this.props.navigate({to: `/admin/app/shipping/couriers`})}}>
+              {formatMessage({id: messages.updateAwbCouriers.id})}
+            </Button>
           </div>
         </div>
         <Table

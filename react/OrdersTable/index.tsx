@@ -5,7 +5,8 @@ import {
   Tag,
   Spinner,
   Checkbox,
-  Toggle
+  Toggle,
+  Button
 } from 'vtex.styleguide'
 import {FormattedCurrency} from 'vtex.format-currency'
 import PropTypes from 'prop-types'
@@ -738,6 +739,11 @@ class OrdersTable extends Component<any, any> {
     return (
       <div>
         <div className={`flex justify-end`}>
+          <div className={`ma3`}>
+            <Button variation="primary" size="small" onClick={() => {this.props.navigate({to: `/admin/app/shipping/couriers`})}}>
+              {formatMessage({id: messages.updateAwbCouriers.id})}
+            </Button>
+          </div>
           <div className={`ma3`}>
             <Toggle
               label={awbAutoUpdateEnabled ? formatMessage({id: messages.offAutoUpdate.id}) : formatMessage({id: messages.onAutoUpdate.id})}

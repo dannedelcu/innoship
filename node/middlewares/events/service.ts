@@ -36,7 +36,7 @@ export async function updateAWBs(ctx: any, next: () => Promise<string>) {
     const reverseCourier = Object.assign({}, ...Object.entries(mappedCarriers).map(([a, b]) => ({[b]: a,})))
 
     // @ts-ignore
-    const reverseSavedCourier = Object.assign({}, ...Object.entries(savedCarriers[0].couriers).map(([a, b]) => ({[b]: a,})))
+    const reverseSavedCourier = savedCarriers[0]?.couriers ? Object.assign({}, ...Object.entries(savedCarriers[0]?.couriers).map(([a, b]) => ({[b]: a,}))) : {}
 
     await Promise.all(allOrders.map(async (item: any) => {
       await event.getOrder(ctx, item.orderId)

@@ -66,11 +66,19 @@ with the following body:
 {    
     "id": "sync-innoship-pickup-points",
     "scheduler": {
+        "endDate": "2030-01-01T00:00:00.000Z", //required & needs to be a future date
         "expression": "*/30 * * * *" 
     },
     "request": {
         "uri": "http://{{accountName}}.myvtex.com/no-cache/sync-pickup-points",
         "method": "POST" 
+    },
+    "retry": {
+        "backOffRate": 1.0,
+        "delay": {
+            "addMinutes": 3
+        },
+        "times": 1
     }
 }
 ```

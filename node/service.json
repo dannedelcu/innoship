@@ -8,6 +8,9 @@
   "events": {
     "pickupPoint": {
       "keys": ["innoship.pickupPoint"]
+    },
+    "invoiceAWB": {
+      "keys": ["vtex.invoiceAWB"]
     }
   },
   "routes": {

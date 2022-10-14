@@ -7,6 +7,7 @@ export async function updateAWBs(ctx: any, next: () => Promise<string>) {
         innoship,
         event,
         masterData,
+        events,
       },
     } = ctx
 
@@ -72,32 +73,31 @@ export async function updateAWBs(ctx: any, next: () => Promise<string>) {
                 awbList[courier] = awbList.hasOwnProperty(courier) ? [ ...awbList[courier], ...[trackingNumber] ] : [trackingNumber]
                 invoicesList[order.orderId] = invoiceNumber
               }
-
-              Object.entries(awbList).forEach(([key, value]) => {
-                innoship.requestAwbHistory({
-                  awbList: value,
-                  courier: key,
-                })
-                  .then((data: any) => {
-                    data.map((awb: any) => {
-                      if (awb.hasOwnProperty('history')) {
-                        const events = awb.history.map((currentEvent: any) => {
-                          return {
-                            date: currentEvent.eventDate,
-                            description: currentEvent.clientStatusDescription,
-                          }
-                        })
-                        event.updateTrackingData(ctx, awb.externalOrderId, invoicesList[awb.externalOrderId], {
-                          events,
-                        })
-                      }
-                    })
-                  })
-              })
             }
           }
         })
     }))
+
+    Object.entries(awbList).forEach(([key, value]) => {
+      innoship.requestAwbHistory({
+        awbList: value,
+        courier: key,
+      })
+        .then((data: any) => {
+          data.map((awb: any) => {
+            if (awb.hasOwnProperty('history')) {
+              const eventsData = awb.history.map((currentEvent: any) => {
+                return {
+                  date: currentEvent.eventDate,
+                  description: currentEvent.clientStatusDescription,
+                }
+              })
+              events.sendEvent('', 'vtex.invoiceAWB', { externalOrderId: awb.externalOrderId, invoicesList: invoicesList[awb.externalOrderId], events: eventsData })
+            }
+          })
+        })
+    })
+
 
     ctx.body = 'OK'
     await next()

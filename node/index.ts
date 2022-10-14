@@ -1,7 +1,8 @@
 import type {ClientsConfig, RecorderState, ServiceContext} from '@vtex/api'
-import { LRUCache, method, Service} from '@vtex/api'
+import { method, Service} from '@vtex/api'
 
 import { Clients } from './clients'
+import {processInvoiceAWB} from './events/processInvoiceAWB';
 import { processPickupPoint } from './events/processPickupPoint'
 import {getProductVariation, getSkuById} from './middlewares/catalog'
 import {
@@ -21,9 +22,7 @@ import {
   requestPriceRates, saveCouriers,
 } from './middlewares/innoship'
 
-const TIMEOUT_MS = 10 * 1000
-
-const memoryCache = new LRUCache<string, any>({ max: 5000 })
+const TIMEOUT_MS = 50 * 1000
 
 const clients: ClientsConfig<Clients> = {
   implementation: Clients,
@@ -38,15 +37,12 @@ const clients: ClientsConfig<Clients> = {
       timeout: TIMEOUT_MS,
     },
     events: {
-      concurrency: 1,
+      concurrency: 10,
       exponentialBackoffCoefficient: 2,
       exponentialTimeoutCoefficient: 2,
       initialBackoffDelay: 50,
-      retries: 1,
+      retries: 5,
       timeout: TIMEOUT_MS,
-    },
-    status: {
-      memoryCache,
     },
   },
 }
@@ -62,6 +58,7 @@ declare global {
 export default new Service({
   clients,
   events: {
+    invoiceAWB: processInvoiceAWB,
     pickupPoint: processPickupPoint,
   },
   routes: {

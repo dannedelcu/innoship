@@ -38,6 +38,13 @@
     {
       "name": "outbound-access",
       "attrs": {
+        "host": "{{account}}.myvtex.com",
+        "path": "/no-cache/*"
+      }
+    },
+    {
+      "name": "outbound-access",
+      "attrs": {
         "host": "{{account}}.vtexcommercestable.com.br",
         "path": "/api/*"
       }
@@ -48,15 +55,6 @@
         "host": "api.vtex.com",
         "path": "/dataentities/*"
       }
-    },
-    {
-      "name": "colossus-fire-event"
-    },
-    {
-      "name": "colossus-write-logs"
-    },
-    {
-      "name": "ADMIN_DS"
     },
     {
       "name": "outbound-access",
@@ -90,13 +88,46 @@
       "name": "AcessaTodosPedidos"
     },
     {
-      "name": "OMSViewer"
+      "name": "ADMIN_DS"
     },
     {
       "name": "ADMIN_CRM"
     },
     {
+      "name": "OMSViewer"
+    },
+    {
+      "name": "Changes"
+    },
+    {
+      "name": "WorkflowAction"
+    },
+    {
+      "name": "POWER_USER_DS"
+    },
+    {
+      "name": "POWER_USER_CRM"
+    },
+    {
       "name": "LogisticsAdmin"
+    },
+    {
+      "name": "ShippingAction"
+    },
+    {
+      "name": "colossus-fire-event"
+    },
+    {
+      "name": "colossus-write-logs"
+    },
+    {
+      "name": "AlterarPrecoSku"
+    },
+    {
+      "name": "modify_prices"
+    },
+    {
+      "name": "read_prices"
     }
   ],
   "settingsSchema": {

@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-
+- added ListOrders to the policies
 ## [2.2.6] - 2022-10-14
 - updated permissions in manifest to fix 403 Forbidden error & fixed routes cache issues
 - moved invoice tracking update to service events to avoid internal 429 To Many Requests error

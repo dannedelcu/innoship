@@ -154,7 +154,7 @@ export async function processPickupPoints(
       clients: { events, innoship },
     } = ctx
 
-    const locations = await innoship.fixedLocations('')
+    const locations = await innoship.fixedLocations('ShowInactive=true')
     const settings = await innoship.getSettings()
     const countryInfo = await innoship.getCountries()
 
